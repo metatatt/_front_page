@@ -1,5 +1,8 @@
-## 乐乐 ##
+npm install -g http-server
+http-server
 
-Udemy https://www.udemy.com/course/tailwind-css-zero-to-hero/learn/lecture/34518332#overview
+files tree
+![alt text](image-1.png)
 
-fonts.google.com
+local run (http-server)
+![alt text](image.png)
