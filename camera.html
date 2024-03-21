@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webcam to Canvas</title>
+<style>
+    #canvasElement {
+      width: 70%;
+      height: auto; /* Maintain aspect ratio */
+    }
+  </style>
+</head>
+<body>
+<video id="videoElement" autoplay style="display: none;"></video>
+<canvas id="canvasElement"></canvas>
+
+<script>
+// Get video element and canvas element
+const video = document.getElementById('videoElement');
+const canvas = document.getElementById('canvasElement');
+const ctx = canvas.getContext('2d');
+
+// Function to start the webcam and stream video to canvas
+async function startWebcam() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        // When video metadata is loaded, set canvas dimensions to match video
+        video.onloadedmetadata = function() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            drawToCanvas();
+        };
+    } catch (err) {
+        console.error('Error accessing webcam:', err);
+    }
+}
+
+// Function to continuously draw video to canvas
+function drawToCanvas() {
+    // Draw video frame onto canvas
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    // Request next frame
+    requestAnimationFrame(drawToCanvas);
+}
+
+// Start webcam when page loads
+window.onload = function() {
+    startWebcam();
+};
+</script>
+</body>
+</html>
